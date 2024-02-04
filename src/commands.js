@@ -1,6 +1,8 @@
 import { ls, up, cd } from './modules/nwd.js';
-import { cat, add, rm } from './modules/fs.js'
+import { cat, add, rn, cp, mv, rm } from './modules/fs.js'
 import { systenInfo } from './modules/system-info.js'
+import { hash } from './modules/hash.js'
+import { compress, decompress } from './modules/brotly.js'
 
 export const commands = async (input) => {
     const parsedInput = input.trim().split(' ')
@@ -30,15 +32,15 @@ export const commands = async (input) => {
             break;
         
         case 'rn':
-            await cat(args);
+            await rn(args);
             break;
 
         case 'cp':
-            await cat(args);
+            await cp(args);
             break;
         
         case 'mv':
-            await rm(args);
+            await mv(args);
             break;
 
         case 'rm':
@@ -47,6 +49,18 @@ export const commands = async (input) => {
 
         case 'os':
             await systenInfo(args);
+            break;
+
+        case 'hash':
+            await hash(args);
+            break;
+
+        case 'compress':
+            await compress(args);
+            break;
+
+        case 'decompress':
+            await decompress(args);
             break;
 
         default: 

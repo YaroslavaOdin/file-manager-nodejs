@@ -18,7 +18,7 @@ const start = async () => {
             rl.close();
         } else {
             await commands(input);
-            console.log(`You are currently in ${ getCurrentPath() }`);
+            console.log(`\n You are currently in ${ getCurrentPath() }`);
         }
     });
     
