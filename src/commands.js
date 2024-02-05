@@ -3,7 +3,7 @@ import { cat, add, rn, cp, mv, rm } from './commands/fs.js';
 import { systenInfo } from './commands/system-info.js';
 import { hash } from './commands/hash.js';
 import { compress, decompress } from './commands/brotly.js';
-import { currentPathMessage } from './helpers/utils.js';
+import { currentPathMessage, checkArgumentsCount } from './helpers/utils.js';
 
 export const commands = async (input) => {
     const parsedInput = input.trim().split(' ');
@@ -13,8 +13,10 @@ export const commands = async (input) => {
 
     switch (command) {
         case 'up':
-            await up();
-            currentPathMessage();
+            if ((!checkArgumentsCount(args, 0))) {
+                await up();
+                currentPathMessage();
+            }
             break;
 
         case 'cd':
@@ -23,8 +25,10 @@ export const commands = async (input) => {
             break;
 
         case 'ls':
-            await ls();
-            currentPathMessage();
+            if ((!checkArgumentsCount(args, 0))) {
+                await ls();
+                currentPathMessage();
+            }
             break;
 
         case 'cat':
