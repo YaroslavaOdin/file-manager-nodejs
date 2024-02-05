@@ -1,6 +1,8 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { getCurrentPath, setCurrentPath } from '../currentPath.js'
+import { getCurrentPath, setCurrentPath } from '../helpers/utils.js';
+import { isPathExist } from '../helpers/utils.js';
+import { checkArgumentsCount } from '../helpers/utils.js';
 
 export const up = async () => {
     const newPath = path.join(getCurrentPath(), '..');
@@ -8,10 +10,13 @@ export const up = async () => {
 }
 
 export const cd = async (args) => {
+    if (checkArgumentsCount(args, 1)) return;
     const newPath = path.resolve(getCurrentPath(), args[0]);
     if(await isPathExist(newPath)) {
         setCurrentPath(newPath);
-    } else console.log(`This path does not exist.`);
+    } else {
+        console.log(`This path does not exist.`);
+    };
 }
 
 export const ls = async () => {
@@ -22,13 +27,4 @@ export const ls = async () => {
     sortedList = sortedList.map((dir) => ({ Name: dir.name, Type: dir.isFile() ? 'file' : 'directory' }));
 
     console.table(sortedList);
-}
-
-export const isPathExist = async (path) => {
-    try {
-        const stat = await fs.stat(path);
-        return stat.isDirectory();
-    } catch (err) {
-        new Error(`Operation failed`);
-    }
 }

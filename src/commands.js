@@ -1,11 +1,12 @@
-import { ls, up, cd } from './modules/nwd.js';
-import { cat, add, rn, cp, mv, rm } from './modules/fs.js'
-import { systenInfo } from './modules/system-info.js'
-import { hash } from './modules/hash.js'
-import { compress, decompress } from './modules/brotly.js'
+import { ls, up, cd } from './commands/nwd.js';
+import { cat, add, rn, cp, mv, rm } from './commands/fs.js';
+import { systenInfo } from './commands/system-info.js';
+import { hash } from './commands/hash.js';
+import { compress, decompress } from './commands/brotly.js';
+import { currentPathMessage } from './helpers/utils.js';
 
 export const commands = async (input) => {
-    const parsedInput = input.trim().split(' ')
+    const parsedInput = input.trim().split(' ');
 
     const command = parsedInput[0];
     const args = parsedInput.slice(1);
@@ -13,14 +14,17 @@ export const commands = async (input) => {
     switch (command) {
         case 'up':
             await up();
+            currentPathMessage();
             break;
 
         case 'cd':
             await cd(args);
+            currentPathMessage();
             break;
 
         case 'ls':
             await ls();
+            currentPathMessage();
             break;
 
         case 'cat':
@@ -49,6 +53,7 @@ export const commands = async (input) => {
 
         case 'os':
             await systenInfo(args);
+            currentPathMessage();
             break;
 
         case 'hash':
@@ -65,6 +70,7 @@ export const commands = async (input) => {
 
         default: 
             console.log('Invalid input');
+            currentPathMessage();
             break;
     }
 }

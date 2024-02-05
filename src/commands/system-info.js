@@ -1,10 +1,8 @@
 import os from "os";
+import { checkArgumentsCount } from '../helpers/utils.js';
 
 export const systenInfo = async (args) => {
-    if(args.length !== 1) {
-        console.log('Invalid input');
-        return;
-    }
+    if (checkArgumentsCount(args, 1)) return;
     switch (args[0]) {
         case '--EOL':
             console.log('EOL: ' + JSON.stringify(os.EOL));

@@ -4,34 +4,26 @@ import {
     stdout as output,
 } from 'node:process';
 import { commands } from './commands.js'
-import  { getCurrentPath } from './currentPath.js'
+import { getUserName, currentPathMessage } from './helpers/utils.js';
 
-const userName = getUserName();
+const userName = await getUserName();
 
 const start = async () => {
     const rl = readline.createInterface({ input, output });
     console.log(`Welcome to the File Manager, ${ userName }!`);
-    console.log(`You are currently in ${ getCurrentPath() }`);
+    currentPathMessage();
 
     rl.on('line', async (input) => {
         if (input === '.exit') {
             rl.close();
         } else {
             await commands(input);
-            console.log(`\n You are currently in ${ getCurrentPath() }`);
         }
     });
     
     rl.on('close', () => {
-        console.log(`Thank you for using File Manager, ${ userName }, goodbye!`);
+        console.log(`\n Thank you for using File Manager, ${ userName }, goodbye!`);
     });
 }
 
 await start();
-
-
-// get username block
-function getUserName() {
-    const UserNameVar = process.argv.find((item) => item.startsWith('--username'));
-    return UserNameVar?.split('=')[1] || 'Default User';
-}
